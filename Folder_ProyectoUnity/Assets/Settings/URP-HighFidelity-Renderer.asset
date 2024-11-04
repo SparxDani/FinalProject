@@ -117,19 +117,19 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 0
     _FastMode: 0
-    _ColorHue: {r: 0, g: 0, b: 0, a: 1}
+    _ColorHue: {r: 1, g: 1, b: 1, a: 1}
     _UseFade: 0
     _FadeAffectsOnlyContours: 0
     _FadeStart: 40
     _FadeEnd: 60
-    _BlackOffset: 0
-    _ContoursIntensity: 1
-    _ContoursThickness: 2.17
+    _BlackOffset: 0.049
+    _ContoursIntensity: 0.898
+    _ContoursThickness: 3
     _ContoursElevationStrength: 3
-    _ContoursElevationSmoothness: 0.743
+    _ContoursElevationSmoothness: 0.735
     _ContoursDepressionStrength: 3
-    _ContoursDepressionSmoothness: 0.345
+    _ContoursDepressionSmoothness: 0.9
     _CavityIntensity: 1
-    _CavityRadius: 0.5
-    _CavityStrength: 1.25
-    _CavitySamples: 12
+    _CavityRadius: 0.67
+    _CavityStrength: 2.47
+    _CavitySamples: 5

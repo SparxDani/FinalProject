@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -5,10 +6,18 @@ public class CharacterMovement : MonoBehaviour
 {
     public GridSystem gridSystem;
     public float speed = 5f;
+    public float rotationSpeed = 360f;
+    public Vector2Int spawnPosition;
+
     private GridSystem.Node actualNode;
     private GridSystem.Node targetNode;
     private bool inMoving;
+    private bool isRotating;
     private Vector2 inputDirection;
+    private Quaternion targetRotation;
+
+    public FruitManager FruitManager;
+
 
     void Start()
     {
@@ -17,27 +26,49 @@ public class CharacterMovement : MonoBehaviour
             Debug.LogError("GridSystem not assigned in CharacterMovement.");
             return;
         }
-
-        actualNode = gridSystem.nodes[0, 0];
+        FruitManager = FindObjectOfType<FruitManager>();
+        if (FruitManager == null)
+        {
+            Debug.LogError("FruitManager not found in the scene.");
+        }
+        int x = Mathf.Clamp(spawnPosition.x, 0, gridSystem.width - 1);
+        int z = Mathf.Clamp(spawnPosition.y, 0, gridSystem.length - 1);
+        actualNode = gridSystem.nodes[x, z];
         targetNode = actualNode;
+
         transform.position = new Vector3(actualNode.position.x, 0, actualNode.position.z);
+        targetRotation = transform.rotation;
     }
 
     void Update()
     {
-        if (!inMoving && inputDirection != Vector2.zero)
+        if (!inMoving && !isRotating && inputDirection != Vector2.zero)
         {
             Vector3Int direction = GetValidDirection(inputDirection);
             if (direction != Vector3Int.zero)
             {
-                Move(direction);
+                Rotate(direction);
+            }
+        }
+
+        if (isRotating)
+        {
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            if (Quaternion.Angle(transform.rotation, targetRotation) < 1f)
+            {
+                transform.rotation = targetRotation;
+                isRotating = false;
+                if (inputDirection != Vector2.zero)
+                {
+                    Vector3Int direction = GetValidDirection(inputDirection);
+                    Move(direction);
+                }
             }
         }
 
         if (inMoving)
         {
             transform.position = Vector3.MoveTowards(transform.position, new Vector3(targetNode.position.x, 0, targetNode.position.z), speed * Time.deltaTime);
-
             if (Vector3.Distance(transform.position, new Vector3(targetNode.position.x, 0, targetNode.position.z)) < 0.1f)
             {
                 transform.position = new Vector3(targetNode.position.x, 0, targetNode.position.z);
@@ -57,15 +88,26 @@ public class CharacterMovement : MonoBehaviour
         inputDirection = Vector2.zero;
     }
 
+    void Rotate(Vector3Int direction)
+    {
+        Vector3 lookDirection = new Vector3(direction.x, 0, direction.z);
+        targetRotation = Quaternion.LookRotation(lookDirection);
+        isRotating = true;
+    }
+
     void Move(Vector3Int direction)
     {
-        int newX = Mathf.RoundToInt((actualNode.position.x + direction.x * gridSystem.nodeOffset) / gridSystem.nodeOffset);
-        int newZ = Mathf.RoundToInt((actualNode.position.z + direction.z * gridSystem.nodeOffset) / gridSystem.nodeOffset);
+        int newX = Mathf.RoundToInt((actualNode.position.x - gridSystem.startCoordinate.x + direction.x * gridSystem.nodeOffset) / gridSystem.nodeOffset);
+        int newZ = Mathf.RoundToInt((actualNode.position.z - gridSystem.startCoordinate.z + direction.z * gridSystem.nodeOffset) / gridSystem.nodeOffset);
 
         if (newX >= 0 && newX < gridSystem.width && newZ >= 0 && newZ < gridSystem.length)
         {
-            targetNode = gridSystem.nodes[newX, newZ];
-            inMoving = true;
+            GridSystem.Node targetNode = gridSystem.nodes[newX, newZ];
+            if (targetNode.isWalkable)
+            {
+                this.targetNode = targetNode;
+                inMoving = true;
+            }
         }
     }
 
@@ -82,4 +124,21 @@ public class CharacterMovement : MonoBehaviour
 
         return Vector3Int.zero;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Fruit"))
+        {
+            Debug.Log("Fruit collected!");
+
+            Fruit fruit = other.GetComponent<Fruit>();
+            if (fruit != null)
+            {
+                fruit.Collect();
+            }
+        }
+    }
+   
+
+
 }
