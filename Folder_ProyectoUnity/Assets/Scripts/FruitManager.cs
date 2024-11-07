@@ -15,7 +15,15 @@ public class FruitManager : MonoBehaviour
 
     void Start()
     {
-        ActivateNextList();
+        for (int i = 0; i < fruitLists.Count; i++)
+        {
+            List<Fruit> list = fruitLists[i].fruitList;
+            bool shouldActivate = (i == 0);
+            for (int j = 0; j < list.Count; j++)
+            {
+                list[j].gameObject.SetActive(shouldActivate);
+            }
+        }
     }
 
     public void OnFruitCollected(Fruit fruit)
@@ -57,7 +65,6 @@ public class FruitManager : MonoBehaviour
             Debug.Log("Next fruit list activated.");
         }
     }
-
 
     private void DisplayVictoryMessage()
     {

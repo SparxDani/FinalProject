@@ -1,4 +1,5 @@
-using Unity.VisualScripting;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,6 +9,8 @@ public class CharacterMovement : MonoBehaviour
     public float speed = 5f;
     public float rotationSpeed = 360f;
     public Vector2Int spawnPosition;
+    public float rayDistance = 20f;
+    public LayerMask detectionLayer;
 
     private GridSystem.Node actualNode;
     private GridSystem.Node targetNode;
@@ -16,9 +19,6 @@ public class CharacterMovement : MonoBehaviour
     private Vector2 inputDirection;
     private Quaternion targetRotation;
 
-    public FruitManager FruitManager;
-
-
     void Start()
     {
         if (gridSystem == null)
@@ -26,11 +26,7 @@ public class CharacterMovement : MonoBehaviour
             Debug.LogError("GridSystem not assigned in CharacterMovement.");
             return;
         }
-        FruitManager = FindObjectOfType<FruitManager>();
-        if (FruitManager == null)
-        {
-            Debug.LogError("FruitManager not found in the scene.");
-        }
+
         int x = Mathf.Clamp(spawnPosition.x, 0, gridSystem.width - 1);
         int z = Mathf.Clamp(spawnPosition.y, 0, gridSystem.length - 1);
         actualNode = gridSystem.nodes[x, z];
@@ -83,11 +79,6 @@ public class CharacterMovement : MonoBehaviour
         inputDirection = context.ReadValue<Vector2>();
     }
 
-    public void OnMoveCanceled(InputAction.CallbackContext context)
-    {
-        inputDirection = Vector2.zero;
-    }
-
     void Rotate(Vector3Int direction)
     {
         Vector3 lookDirection = new Vector3(direction.x, 0, direction.z);
@@ -125,20 +116,76 @@ public class CharacterMovement : MonoBehaviour
         return Vector3Int.zero;
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void ToggleIceBlocks()
     {
-        if (other.gameObject.CompareTag("Fruit"))
+        if (CountIceBlocksInFront() > 0)
         {
-            Debug.Log("Fruit collected!");
+            DestroyIceBlocksInFront();
+            Debug.Log("Destruyendo bloques de hielo al frente.");
+        }
+        else
+        {
+            CreateIceBlocksInFront();
+            Debug.Log("Creando bloques de hielo al frente.");
+        }
+    }
 
-            Fruit fruit = other.GetComponent<Fruit>();
-            if (fruit != null)
+    private int CountIceBlocksInFront()
+    {
+        Vector3 direction = transform.forward;
+        RaycastHit[] hits = Physics.RaycastAll(transform.position, direction, rayDistance, detectionLayer);
+        int iceBlockCount = 0;
+
+        foreach (var hit in hits)
+        {
+            if (hit.collider.CompareTag("IceBlock"))
             {
-                fruit.Collect();
+                iceBlockCount++;
+            }
+            else if (hit.collider.CompareTag("Limit"))
+            {
+                break;
+            }
+        }
+
+        return iceBlockCount;
+    }
+
+    private void CreateIceBlocksInFront()
+    {
+        Vector3 direction = transform.forward;
+        Vector3 position = transform.position;
+
+        for (int i = 0; i < rayDistance; i++)
+        {
+            position += direction;
+
+            if (!Physics.Raycast(position, Vector3.down, 1f, detectionLayer) ||
+                Physics.Raycast(position, direction, 1f, detectionLayer, QueryTriggerInteraction.Collide))
+            {
+                break;
+            }
+
+            GameObject iceBlock = Instantiate(Resources.Load<GameObject>("IceBlockPrefab"), position, Quaternion.identity);
+            iceBlock.tag = "IceBlock";
+        }
+    }
+
+    private void DestroyIceBlocksInFront()
+    {
+        Vector3 direction = transform.forward;
+        RaycastHit[] hits = Physics.RaycastAll(transform.position, direction, rayDistance, detectionLayer);
+
+        foreach (var hit in hits)
+        {
+            if (hit.collider.CompareTag("IceBlock"))
+            {
+                Destroy(hit.collider.gameObject);
+            }
+            else if (hit.collider.CompareTag("Limit"))
+            {
+                break;
             }
         }
     }
-   
-
-
 }
