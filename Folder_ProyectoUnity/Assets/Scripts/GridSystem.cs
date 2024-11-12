@@ -8,6 +8,7 @@ public class GridSystem : MonoBehaviour
     [SerializeField] private TextAsset mapFile;
     [SerializeField] public Vector3Int startCoordinate = Vector3Int.zero;
     [SerializeField] public GameObject iceBlockPrefab;
+    [SerializeField] public GameObject[] obstaclePrefabs; 
 
     public Node[,] nodes;
     public int width;
@@ -26,6 +27,7 @@ public class GridSystem : MonoBehaviour
         length = lines.Length;
         width = lines[0].Split(',').Length;
     }
+
     public Vector3 GetWorldPosition(int x, int z)
     {
         Node node = GetNode(x, z);
@@ -37,6 +39,7 @@ public class GridSystem : MonoBehaviour
         Debug.LogError("Coordenadas de cuadrícula inválidas o nodo nulo.");
         return Vector3.zero;
     }
+
     void CreateGrid()
     {
         nodes = new Node[width, length];
@@ -51,20 +54,29 @@ public class GridSystem : MonoBehaviour
                 string value = lineValues[x].Trim();
                 Vector3Int position = startCoordinate + new Vector3Int(Mathf.RoundToInt(x * nodeOffset), 0, Mathf.RoundToInt(z * nodeOffset));
 
-                bool isWalkable = value == "0";
-                bool isIceBlock = value == "H";
-
-                nodes[x, z] = new Node(position, isWalkable);
-
-                if (isIceBlock)
+                if (value == "0")
                 {
+                    nodes[x, z] = new Node(position, true);
+                }
+                else if (value == "H")
+                {
+                    nodes[x, z] = new Node(position, false);
                     nodes[x, z].isIceBlock = true;
-                    nodes[x, z].isWalkable = false;
                     nodes[x, z].iceBlockInstance = Instantiate(iceBlockPrefab, new Vector3(position.x, 0, position.z), Quaternion.identity);
+                }
+                else if (int.TryParse(value, out int obstacleIndex) && obstacleIndex >= 1 && obstacleIndex <= obstaclePrefabs.Length)
+                {
+                    nodes[x, z] = new Node(position, false);
+                    nodes[x, z].obstacleInstance = Instantiate(obstaclePrefabs[obstacleIndex - 1], new Vector3(position.x, 0, position.z), Quaternion.identity);
+                }
+                else
+                {
+                    Debug.LogWarning($"Valor no reconocido en la posición ({x},{z}): {value}");
                 }
             }
         }
     }
+
     private Node GetNode(int x, int z)
     {
         if (x >= 0 && x < width && z >= 0 && z < length)
@@ -74,24 +86,6 @@ public class GridSystem : MonoBehaviour
         return null;
     }
 
-    private void OnDrawGizmos()
-    {
-        if (nodes == null) return;
-
-        for (int x = 0; x < width; x++)
-        {
-            for (int z = 0; z < length; z++)
-            {
-                Node node = nodes[x, z];
-                if (node == null) continue;
-
-                Gizmos.color = node.isWalkable ? Color.green : (node.isIceBlock ? Color.cyan : Color.red);
-                Vector3 nodePosition = new Vector3(node.position.x, 0, node.position.z);
-
-                Gizmos.DrawWireCube(nodePosition, new Vector3(nodeOffset, 0.1f, nodeOffset));
-            }
-        }
-    }
     void ConnectNodes()
     {
         Vector3Int[] directions = { Vector3Int.forward, Vector3Int.back, Vector3Int.left, Vector3Int.right };
@@ -128,6 +122,8 @@ public class GridSystem : MonoBehaviour
         public bool isWalkable;
         public bool isIceBlock;
         public GameObject iceBlockInstance;
+        public GameObject obstacleInstance;
+        public Collider nodeCollider;
 
         public Node(Vector3Int position, bool isWalkable)
         {
@@ -135,6 +131,17 @@ public class GridSystem : MonoBehaviour
             this.isWalkable = isWalkable;
             this.isIceBlock = false;
             this.iceBlockInstance = null;
+            this.obstacleInstance = null;
+
+            if (iceBlockInstance != null)
+            {
+                nodeCollider = iceBlockInstance.GetComponent<Collider>();
+            }
+            else if (obstacleInstance != null)
+            {
+                nodeCollider = obstacleInstance.GetComponent<Collider>();
+            }
         }
     }
+
 }

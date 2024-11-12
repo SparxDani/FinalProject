@@ -16,6 +16,7 @@ public class MovingFruit : Fruit
         if (gridSystem == null)
         {
             Debug.LogError("GridSystem not found!");
+            return;
         }
 
         StartCoroutine(MoveRandomly());
@@ -39,9 +40,13 @@ public class MovingFruit : Fruit
                         isMoving = true;
                     }
                 }
+                else
+                {
+                    Debug.LogWarning("Nodo actual no encontrado.");
+                }
             }
 
-            yield return null;
+            yield return new WaitForSeconds(0.5f);
         }
     }
 
@@ -49,11 +54,12 @@ public class MovingFruit : Fruit
     {
         if (isMoving && targetNode != null)
         {
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(targetNode.position.x, 0, targetNode.position.z), speed * Time.deltaTime);
+            Vector3 targetPosition = new Vector3(targetNode.position.x, 0, targetNode.position.z);
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
 
-            if (Vector3.Distance(transform.position, new Vector3(targetNode.position.x, 0, targetNode.position.z)) < 0.1f)
+            if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
             {
-                transform.position = new Vector3(targetNode.position.x, 0, targetNode.position.z);
+                transform.position = targetPosition;
                 isMoving = false;
             }
         }

@@ -116,76 +116,18 @@ public class CharacterMovement : MonoBehaviour
         return Vector3Int.zero;
     }
 
-    public void ToggleIceBlocks()
+    private void OnTriggerEnter(Collider other)
     {
-        if (CountIceBlocksInFront() > 0)
+        if (other.gameObject.CompareTag("Fruit"))
         {
-            DestroyIceBlocksInFront();
-            Debug.Log("Destruyendo bloques de hielo al frente.");
-        }
-        else
-        {
-            CreateIceBlocksInFront();
-            Debug.Log("Creando bloques de hielo al frente.");
+            Debug.Log("Fruit collected!");
+
+            Fruit fruit = other.GetComponent<Fruit>();
+            if (fruit != null)
+            {
+                fruit.Collect();
+            }
         }
     }
 
-    private int CountIceBlocksInFront()
-    {
-        Vector3 direction = transform.forward;
-        RaycastHit[] hits = Physics.RaycastAll(transform.position, direction, rayDistance, detectionLayer);
-        int iceBlockCount = 0;
-
-        foreach (var hit in hits)
-        {
-            if (hit.collider.CompareTag("IceBlock"))
-            {
-                iceBlockCount++;
-            }
-            else if (hit.collider.CompareTag("Limit"))
-            {
-                break;
-            }
-        }
-
-        return iceBlockCount;
-    }
-
-    private void CreateIceBlocksInFront()
-    {
-        Vector3 direction = transform.forward;
-        Vector3 position = transform.position;
-
-        for (int i = 0; i < rayDistance; i++)
-        {
-            position += direction;
-
-            if (!Physics.Raycast(position, Vector3.down, 1f, detectionLayer) ||
-                Physics.Raycast(position, direction, 1f, detectionLayer, QueryTriggerInteraction.Collide))
-            {
-                break;
-            }
-
-            GameObject iceBlock = Instantiate(Resources.Load<GameObject>("IceBlockPrefab"), position, Quaternion.identity);
-            iceBlock.tag = "IceBlock";
-        }
-    }
-
-    private void DestroyIceBlocksInFront()
-    {
-        Vector3 direction = transform.forward;
-        RaycastHit[] hits = Physics.RaycastAll(transform.position, direction, rayDistance, detectionLayer);
-
-        foreach (var hit in hits)
-        {
-            if (hit.collider.CompareTag("IceBlock"))
-            {
-                Destroy(hit.collider.gameObject);
-            }
-            else if (hit.collider.CompareTag("Limit"))
-            {
-                break;
-            }
-        }
-    }
 }

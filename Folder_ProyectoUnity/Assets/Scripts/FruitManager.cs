@@ -26,6 +26,21 @@ public class FruitManager : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        Fruit.OnFruitCollected += UpdateScore;
+    }
+
+    private void OnDisable()
+    {
+        Fruit.OnFruitCollected -= UpdateScore;
+    }
+
+    private void UpdateScore(int points)
+    {
+        UiManager.Instance.AddScore(points);
+    }
+
     public void OnFruitCollected(Fruit fruit)
     {
         CheckCurrentListCompletion();
