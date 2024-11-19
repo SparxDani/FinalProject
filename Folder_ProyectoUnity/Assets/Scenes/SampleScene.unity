@@ -363,6 +363,10 @@ MonoBehaviour:
   points: 10
   FruitManager: {fileID: 1123955920}
   gridSystem: {fileID: 1123235634}
+  scaleMin: 0.8
+  scaleMax: 1.2
+  scaleDuration: 1
+  rotationSpeed: 90
 --- !u!136 &12817105
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4173,13 +4177,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 301602850}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0.3111162, w: 0.95037186}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2094819596}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -36.253}
 --- !u!136 &301602852
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -17308,13 +17312,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 895735968}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0.3111162, w: 0.95037186}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 12817106}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -36.253}
 --- !u!136 &895735970
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -17516,7 +17520,8 @@ MonoBehaviour:
   rayDistance: 20
   detectionLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 0
+  iceBlockPrefab: {fileID: 636476328}
 --- !u!4 &900338506
 Transform:
   m_ObjectHideFlags: 0
@@ -17577,9 +17582,37 @@ MonoBehaviour:
     m_ActionId: 48e65986-57f5-4952-9b25-4c2ff666a014
     m_ActionName: Gameplay/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 900338505}
+        m_TargetAssemblyTypeName: CharacterMovement, Assembly-CSharp
+        m_MethodName: OnCreateIceBlock
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: bfdb73b0-3f2b-4041-8d76-159532b977f0
     m_ActionName: Gameplay/Create/Destroy[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 900338505}
+        m_TargetAssemblyTypeName: CharacterMovement, Assembly-CSharp
+        m_MethodName: OnDestroyIceBlock
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f0929eaf-f01e-41b4-8199-a1cafabfa024
+    m_ActionName: Gameplay/Destroy[/Keyboard/z]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
@@ -18744,13 +18777,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963521077}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0.3111162, w: 0.95037186}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1535122603}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -36.253}
 --- !u!136 &963521079
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -27175,6 +27208,10 @@ MonoBehaviour:
   points: 10
   FruitManager: {fileID: 1123955920}
   gridSystem: {fileID: 1123235634}
+  scaleMin: 0.8
+  scaleMax: 1.2
+  scaleDuration: 1
+  rotationSpeed: 90
 --- !u!136 &1535122602
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -27775,6 +27812,10 @@ MonoBehaviour:
   points: 10
   FruitManager: {fileID: 1123955920}
   gridSystem: {fileID: 1123235634}
+  scaleMin: 0.8
+  scaleMax: 1.2
+  scaleDuration: 1
+  rotationSpeed: 90
 --- !u!136 &1580599165
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -33098,13 +33139,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1954730460}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0.3111162, w: 0.95037186}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1580599166}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -36.253}
 --- !u!136 &1954730462
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -35349,6 +35390,10 @@ MonoBehaviour:
   points: 10
   FruitManager: {fileID: 1123955920}
   gridSystem: {fileID: 1123235634}
+  scaleMin: 0.8
+  scaleMax: 1.2
+  scaleDuration: 1
+  rotationSpeed: 90
 --- !u!4 &2094819596
 Transform:
   m_ObjectHideFlags: 0
