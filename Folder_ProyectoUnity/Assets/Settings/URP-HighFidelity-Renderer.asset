@@ -19,9 +19,9 @@ MonoBehaviour:
     AfterOpaque: 0
     Source: 1
     NormalSamples: 1
-    Intensity: 0.5
+    Intensity: 1
     DirectLightingStrength: 0.25
-    Radius: 0.25
+    Radius: 1
     Samples: 0
     BlurQuality: 0
     Falloff: 100
@@ -122,14 +122,14 @@ MonoBehaviour:
     _FadeAffectsOnlyContours: 0
     _FadeStart: 40
     _FadeEnd: 60
-    _BlackOffset: 0.049
-    _ContoursIntensity: 0.898
+    _BlackOffset: 0.5
+    _ContoursIntensity: 1
     _ContoursThickness: 3
     _ContoursElevationStrength: 3
-    _ContoursElevationSmoothness: 0.735
+    _ContoursElevationSmoothness: 0.05
     _ContoursDepressionStrength: 3
     _ContoursDepressionSmoothness: 0.9
     _CavityIntensity: 1
-    _CavityRadius: 0.67
-    _CavityStrength: 2.47
-    _CavitySamples: 5
+    _CavityRadius: 0.631
+    _CavityStrength: 4.31
+    _CavitySamples: 12

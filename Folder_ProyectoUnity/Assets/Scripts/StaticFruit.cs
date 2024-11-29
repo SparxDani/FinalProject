@@ -12,7 +12,7 @@ public class StaticFruit : Fruit
 
     protected override void Start()
     {
-        base.Start();
+        //base.Start();
         ApplyTransformEffects();
     }
 
@@ -20,7 +20,8 @@ public class StaticFruit : Fruit
     {
         transform.DOScale(scaleMax, scaleDuration)
             .SetLoops(-1, LoopType.Yoyo)
-            .SetEase(Ease.InOutSine);
+            .SetEase(Ease.InOutSine)
+            .From(scaleMin);
 
         RotateIndefinitely();
     }
