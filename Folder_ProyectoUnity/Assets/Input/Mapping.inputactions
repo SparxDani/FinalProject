@@ -90,9 +90,75 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "2D Vectorgamepad",
+                    "id": "4d91b3b2-d9e0-4294-a4f0-3058714e16af",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "1196914a-fc71-4f4f-b6b2-e674093d2dff",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "47b12207-b1da-4e49-8cee-cde1251ca58d",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "6124369b-c89c-4d76-9f60-9236784901d8",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "c9d49c06-eac8-4cc1-ad94-ae378f6f0e2e",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "",
                     "id": "0292fb0f-2b3b-497c-9352-703d456c79b1",
                     "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Create/Destroy",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "22ec46c5-6064-4b81-951d-aac13c84abf4",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
