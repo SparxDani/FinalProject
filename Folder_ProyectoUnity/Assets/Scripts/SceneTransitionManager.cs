@@ -13,6 +13,9 @@ public class SceneTransitionManager : MonoBehaviour
     public Vector2 finalPosition;
     public float transitionDuration = 1f;
 
+    [Header("Audio Settings")]
+    public AudioSource audioSource;
+    public AudioClip sceneTransitorSound;
     private void Awake()
     {
         if (Instance == null)
@@ -28,14 +31,23 @@ public class SceneTransitionManager : MonoBehaviour
 
     public void TransitionToScene(string sceneName)
     {
+        PlaySound(sceneTransitorSound);
+
         transitionImage.DOAnchorPos(Vector2.zero, transitionDuration).SetEase(Ease.InOutQuad).OnComplete(() =>
         {
             SceneManager.LoadScene(sceneName);
 
             transitionImage.DOAnchorPos(finalPosition, transitionDuration).SetEase(Ease.InOutQuad);
         });
-    }
 
+    }
+    private void PlaySound(AudioClip clip)
+    {
+        if (audioSource != null && clip != null)
+        {
+            audioSource.PlayOneShot(clip);
+        }
+    }
     private void Start()
     {
         transitionImage.anchoredPosition = initialPosition;

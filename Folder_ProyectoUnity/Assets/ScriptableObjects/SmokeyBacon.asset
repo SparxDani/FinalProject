@@ -15,3 +15,7 @@ MonoBehaviour:
   characterName: SmokeyBacon
   characterImage: {fileID: 21300000, guid: 10852b3acc7f4aa4a8967901e8cf527b, type: 3}
   characterPrefab: {fileID: 0}
+  characterColors:
+  - {r: 0.6320754, g: 0.3678552, b: 0.07453719, a: 1}
+  - {r: 0.518, g: 0.30243477, b: 0.061130438, a: 1}
+  - {r: 0, g: 0.43218517, b: 1, a: 1}

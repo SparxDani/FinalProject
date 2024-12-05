@@ -1,10 +1,12 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
+using System.Collections;
 
 public class GridSystem : MonoBehaviour
 {
     [SerializeField] public float nodeOffset = 1f;
+    [SerializeField] public float actionDelay = 0.5f; 
     [SerializeField] private TextAsset mapFile;
     [SerializeField] public Vector3Int startCoordinate = Vector3Int.zero;
     [SerializeField] public GameObject iceBlockPrefab;
@@ -77,7 +79,7 @@ public class GridSystem : MonoBehaviour
         }
     }
 
-    private Node GetNode(int x, int z)
+    public Node GetNode(int x, int z)
     {
         if (x >= 0 && x < width && z >= 0 && z < length)
         {
@@ -85,6 +87,131 @@ public class GridSystem : MonoBehaviour
         }
         return null;
     }
+    public void ToggleIceBlocks(Vector3Int playerPosition, Vector3Int direction)
+    {
+        StopAllCoroutines();
+        StartCoroutine(ToggleIceBlocksCoroutine(playerPosition, direction));
+        Vector3Int currentPosition = playerPosition + direction;
+
+        List<Node> nodesToProcess = new List<Node>();
+
+        bool shouldDestroy = true;
+
+        while (true)
+        {
+            int x = Mathf.RoundToInt((currentPosition.x - startCoordinate.x) / nodeOffset);
+            int z = Mathf.RoundToInt((currentPosition.z - startCoordinate.z) / nodeOffset);
+
+            if (x < 0 || x >= width || z < 0 || z >= length)
+                break;
+
+            Node node = nodes[x, z];
+
+            if (node == null || (!node.isWalkable && !node.isIceBlock))
+                break;
+
+            if (!node.isIceBlock)
+            {
+                shouldDestroy = false;
+                break;
+            }
+
+            nodesToProcess.Add(node);
+
+            currentPosition += direction;
+        }
+
+        for (int i = 0; i < nodesToProcess.Count; i++)
+        {
+            Node node = nodesToProcess[i];
+
+            if (shouldDestroy)
+            {
+                if (node.isIceBlock)
+                {
+                    Destroy(node.iceBlockInstance);
+                    node.isIceBlock = false;
+                    node.isWalkable = true;
+                }
+            }
+            else
+            {
+                if (node.isWalkable)
+                {
+                    node.iceBlockInstance = Instantiate(iceBlockPrefab, new Vector3(node.position.x, 0, node.position.z), Quaternion.identity);
+                    node.isIceBlock = true;
+                    node.isWalkable = false;
+                }
+            }
+        }
+    }
+
+    private IEnumerator ToggleIceBlocksCoroutine(Vector3Int playerPosition, Vector3Int direction)
+    {
+        Vector3Int currentPosition = playerPosition + direction;
+        List<Node> affectedNodes = new List<Node>();
+
+        while (true)
+        {
+            int x = Mathf.RoundToInt((currentPosition.x - startCoordinate.x) / nodeOffset);
+            int z = Mathf.RoundToInt((currentPosition.z - startCoordinate.z) / nodeOffset);
+
+            if (x < 0 || x >= width || z < 0 || z >= length)
+                break;
+
+            Node node = nodes[x, z];
+
+            if (node == null || (!node.isIceBlock))
+                break;
+
+            affectedNodes.Add(node);
+            currentPosition += direction;
+        }
+
+        if (affectedNodes.Count > 0)
+        {
+            for (int i = 0; i < affectedNodes.Count; i++)
+            {
+                Node node = affectedNodes[i];
+                if (node.isIceBlock)
+                {
+                    Destroy(node.iceBlockInstance);
+                    node.isIceBlock = false;
+                    node.isWalkable = true;
+                    yield return new WaitForSeconds(0.2f);
+                }
+            }
+            yield break;
+        }
+
+        currentPosition = playerPosition + direction;
+
+        while (true)
+        {
+            int x = Mathf.RoundToInt((currentPosition.x - startCoordinate.x) / nodeOffset);
+            int z = Mathf.RoundToInt((currentPosition.z - startCoordinate.z) / nodeOffset);
+
+            if (x < 0 || x >= width || z < 0 || z >= length)
+                break;
+
+            Node node = nodes[x, z];
+
+            if (node == null || (!node.isWalkable && !node.isIceBlock))
+                break;
+
+            if (node.isWalkable)
+            {
+                node.iceBlockInstance = Instantiate(iceBlockPrefab, new Vector3(node.position.x, 0, node.position.z), Quaternion.identity);
+                node.isIceBlock = true;
+                node.isWalkable = false;
+                yield return new WaitForSeconds(actionDelay);
+            }
+
+            currentPosition += direction;
+        }
+    }
+
+
 
     void ConnectNodes()
     {

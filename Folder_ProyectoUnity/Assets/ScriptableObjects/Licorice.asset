@@ -15,3 +15,7 @@ MonoBehaviour:
   characterName: Licorice
   characterImage: {fileID: 21300000, guid: f4c32eefee978544c8dd89288b09cf4c, type: 3}
   characterPrefab: {fileID: 0}
+  characterColors:
+  - {r: 1, g: 0, b: 0.96559095, a: 1}
+  - {r: 1, g: 0.6179246, b: 0.78092027, a: 1}
+  - {r: 1, g: 0.25, b: 0.3052864, a: 1}

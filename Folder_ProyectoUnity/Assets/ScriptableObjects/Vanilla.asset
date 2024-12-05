@@ -15,3 +15,7 @@ MonoBehaviour:
   characterName: Vanilla
   characterImage: {fileID: 21300000, guid: 2ec9316e09f89c54d89b876686d788eb, type: 3}
   characterPrefab: {fileID: 0}
+  characterColors:
+  - {r: 0.9056604, g: 0.79671717, b: 0.7048772, a: 1}
+  - {r: 1, g: 0.5330188, b: 0.7322359, a: 1}
+  - {r: 0.60744715, g: 0.380429, b: 0.7830189, a: 1}

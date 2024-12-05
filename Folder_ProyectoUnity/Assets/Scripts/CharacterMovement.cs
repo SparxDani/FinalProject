@@ -79,6 +79,24 @@ public class CharacterMovement : MonoBehaviour
         inputDirection = context.ReadValue<Vector2>();
     }
 
+    public void OnCreateIceBlock(InputAction.CallbackContext context)
+    {
+        if (!context.performed) return;
+
+        Vector3Int direction = GetPlayerLookDirection();
+
+        if (direction != Vector3Int.zero)
+        {
+            Vector3Int startPosition = new Vector3Int(
+                Mathf.RoundToInt(transform.position.x),
+                0,
+                Mathf.RoundToInt(transform.position.z)
+            ) + direction;
+
+            gridSystem.ToggleIceBlocks(startPosition, direction);
+        }
+    }
+
     void Rotate(Vector3Int direction)
     {
         Vector3 lookDirection = new Vector3(direction.x, 0, direction.z);
@@ -116,6 +134,23 @@ public class CharacterMovement : MonoBehaviour
         return Vector3Int.zero;
     }
 
+    Vector3Int GetPlayerLookDirection()
+    {
+        Vector3 forward = transform.forward;
+        Vector3Int direction = Vector3Int.zero;
+
+        if (Mathf.Abs(forward.x) > Mathf.Abs(forward.z))
+        {
+            direction.x = forward.x > 0 ? 1 : -1;
+        }
+        else
+        {
+            direction.z = forward.z > 0 ? 1 : -1;
+        }
+
+        return direction;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Fruit"))
@@ -129,5 +164,4 @@ public class CharacterMovement : MonoBehaviour
             }
         }
     }
-
 }

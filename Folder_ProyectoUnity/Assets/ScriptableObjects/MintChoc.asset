@@ -15,3 +15,7 @@ MonoBehaviour:
   characterName: MintChoc
   characterImage: {fileID: 21300000, guid: e7f087033e0f500448f41aca35ae95ad, type: 3}
   characterPrefab: {fileID: 0}
+  characterColors:
+  - {r: 0, g: 1, b: 0.7328503, a: 1}
+  - {r: 0.6320754, g: 0.35852072, b: 0.12820399, a: 1}
+  - {r: 1, g: 0.5904733, b: 0, a: 1}

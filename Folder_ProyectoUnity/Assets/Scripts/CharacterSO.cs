@@ -8,4 +8,6 @@ public class CharacterSO : ScriptableObject
     public string characterName;
     public Sprite characterImage;
     public GameObject characterPrefab;
+    public Color[] characterColors;
+
 }

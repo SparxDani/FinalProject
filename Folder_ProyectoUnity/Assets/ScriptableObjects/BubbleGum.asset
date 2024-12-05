@@ -15,3 +15,7 @@ MonoBehaviour:
   characterName: BubbleGum
   characterImage: {fileID: 21300000, guid: 79e16d5b4c1d711478a5af83bd0ca2fb, type: 3}
   characterPrefab: {fileID: 0}
+  characterColors:
+  - {r: 0.3019608, g: 0.76470596, b: 0.93725497, a: 1}
+  - {r: 0.9921569, g: 0.5803922, b: 0.6, a: 1}
+  - {r: 0.68235296, g: 0.18039216, b: 0, a: 1}
