@@ -12,6 +12,9 @@ public class FruitManager : MonoBehaviour
 {
     [SerializeField] public List<FruitList> fruitLists = new List<FruitList>();
     private int currentListIndex = 0;
+    public GameObject WinPanel;
+    public AudioSource audioSource;
+    public AudioClip WinSound;  
 
     void Start()
     {
@@ -83,6 +86,16 @@ public class FruitManager : MonoBehaviour
 
     private void DisplayVictoryMessage()
     {
-        Debug.Log("Victory! All fruits collected.");
+        PlaySound(WinSound);
+        WinPanel.gameObject.SetActive(true);
     }
+
+    private void PlaySound(AudioClip clip)
+    {
+        if (audioSource != null && clip != null)
+        {
+            audioSource.PlayOneShot(clip);
+        }
+    }
+
 }

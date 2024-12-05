@@ -251,6 +251,7 @@ public class GridSystem : MonoBehaviour
         public GameObject iceBlockInstance;
         public GameObject obstacleInstance;
         public Collider nodeCollider;
+        public Enemy enemy;
 
         public Node(Vector3Int position, bool isWalkable)
         {

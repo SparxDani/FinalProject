@@ -12,7 +12,7 @@ public class StaticFruit : Fruit
 
     protected override void Start()
     {
-        //base.Start();
+        base.Start();
         ApplyTransformEffects();
     }
 

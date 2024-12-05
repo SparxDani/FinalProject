@@ -11,6 +11,8 @@ public class Fruit : MonoBehaviour
     public FruitManager FruitManager;
     protected bool isCollected = false;
     public GridSystem gridSystem;
+    public AudioSource audioSource;
+    public AudioClip collectedFruitSound;
 
     public bool IsCollected => isCollected;
 
@@ -31,10 +33,18 @@ public class Fruit : MonoBehaviour
     {
         if (!isCollected)
         {
+            PlaySound(collectedFruitSound);
             isCollected = true;
             OnFruitCollected?.Invoke(points);
             FruitManager.OnFruitCollected(this);
             Destroy(gameObject);
+        }
+    }
+    private void PlaySound(AudioClip clip)
+    {
+        if (audioSource != null && clip != null)
+        {
+            audioSource.PlayOneShot(clip);
         }
     }
 }
