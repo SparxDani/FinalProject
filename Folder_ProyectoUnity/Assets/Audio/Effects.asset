@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mixer: {fileID: 24100000, guid: 83f0ca6ee9dda7f4faac2cd22ec44e25, type: 2}
   channelVolume: Effects
-  currentVolume: 0.31180844
+  currentVolume: 1
