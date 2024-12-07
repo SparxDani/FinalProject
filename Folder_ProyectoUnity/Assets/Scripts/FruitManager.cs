@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,9 +13,8 @@ public class FruitManager : MonoBehaviour
 {
     [SerializeField] public List<FruitList> fruitLists = new List<FruitList>();
     private int currentListIndex = 0;
-    public GameObject WinPanel;
-    public AudioSource audioSource;
-    public AudioClip WinSound;  
+
+    public static event Action OnVictoryAchieved;
 
     void Start()
     {
@@ -67,7 +67,7 @@ public class FruitManager : MonoBehaviour
         }
         else
         {
-            DisplayVictoryMessage();
+            OnVictoryAchieved?.Invoke();
         }
     }
 
@@ -83,19 +83,4 @@ public class FruitManager : MonoBehaviour
             Debug.Log("Next fruit list activated.");
         }
     }
-
-    private void DisplayVictoryMessage()
-    {
-        PlaySound(WinSound);
-        WinPanel.gameObject.SetActive(true);
-    }
-
-    private void PlaySound(AudioClip clip)
-    {
-        if (audioSource != null && clip != null)
-        {
-            audioSource.PlayOneShot(clip);
-        }
-    }
-
 }

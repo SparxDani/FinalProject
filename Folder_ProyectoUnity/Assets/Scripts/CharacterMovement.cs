@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System;
+
 
 public class CharacterMovement : MonoBehaviour
 {
@@ -9,7 +11,6 @@ public class CharacterMovement : MonoBehaviour
     public float speed = 5f;
     public float rotationSpeed = 360f;
     public Vector2Int spawnPosition;
-    public float rayDistance = 20f;
     public LayerMask detectionLayer;
 
     private GridSystem.Node actualNode;
@@ -18,6 +19,8 @@ public class CharacterMovement : MonoBehaviour
     private bool isRotating;
     private Vector2 inputDirection;
     private Quaternion targetRotation;
+
+    public static event Action OnPlayerDefeated;
 
     void Start()
     {
@@ -162,6 +165,12 @@ public class CharacterMovement : MonoBehaviour
             {
                 fruit.Collect();
             }
+        }
+        else if (other.gameObject.CompareTag("Enemy"))
+        {
+            Debug.Log("Player defeated!");
+            OnPlayerDefeated?.Invoke();
+            gameObject.SetActive(false);
         }
     }
 }

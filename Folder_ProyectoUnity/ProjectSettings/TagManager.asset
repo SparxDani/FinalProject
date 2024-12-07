@@ -7,6 +7,7 @@ TagManager:
   - Fruit
   - Limit
   - IceBlock
+  - Enemy
   layers:
   - Default
   - TransparentFX
