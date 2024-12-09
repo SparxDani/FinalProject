@@ -8,7 +8,7 @@ public class SoundsSO : ScriptableObject
 {
     [SerializeField] private AudioMixer mixer;
     [SerializeField] private string channelVolume;
-    [SerializeField] private float currentVolume = 0.75f;
+    [SerializeField] public float currentVolume = 0.75f;
     private const float MIN_VOLUME = -80f;
     private const float MAX_VOLUME = 20f;
 

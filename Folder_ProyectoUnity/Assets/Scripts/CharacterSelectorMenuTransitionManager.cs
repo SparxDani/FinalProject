@@ -215,7 +215,18 @@ public class CharacterSelectorMenuTransitionManager : MonoBehaviour
         PlaySound(buttonClickSound);
         Application.Quit();
     }
-
+    public void LoadScene(string nameScene)
+    {
+        Time.timeScale = 1f;
+        if (SceneTransitionManager.Instance != null)
+        {
+            SceneTransitionManager.Instance.TransitionToScene(nameScene);
+        }
+        else
+        {
+            Debug.LogError("SceneTransitionManager is not available in the current scene.");
+        }
+    }
     private void PlaySound(AudioClip clip)
     {
         if (audioSource != null && clip != null)

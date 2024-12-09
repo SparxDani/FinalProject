@@ -4,14 +4,12 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
 
-
 public class CharacterMovement : MonoBehaviour
 {
     public GridSystem gridSystem;
     public float speed = 5f;
     public float rotationSpeed = 360f;
     public Vector2Int spawnPosition;
-    public LayerMask detectionLayer;
 
     private GridSystem.Node actualNode;
     private GridSystem.Node targetNode;
@@ -19,11 +17,13 @@ public class CharacterMovement : MonoBehaviour
     private bool isRotating;
     private Vector2 inputDirection;
     private Quaternion targetRotation;
-
+    public CapsuleCollider playerCollider;
     public static event Action OnPlayerDefeated;
+    public static event Action OnPlayerVictory;
 
     void Start()
     {
+        playerCollider = GetComponent<CapsuleCollider>();
         if (gridSystem == null)
         {
             Debug.LogError("GridSystem not assigned in CharacterMovement.");
@@ -173,4 +173,20 @@ public class CharacterMovement : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
+
+    public void TriggerVictory()
+    {
+        Debug.Log("TriggerVictory called in CharacterMovement.");
+        OnPlayerVictory?.Invoke();
+        if (playerCollider != null)
+        {
+            playerCollider.enabled = false;
+            Debug.Log("Player Collider disabled.");
+        }
+        else
+        {
+            Debug.LogError("Player Collider is null in CharacterMovement.");
+        }
+    }
+
 }

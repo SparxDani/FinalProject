@@ -8,8 +8,20 @@ public class SimpleEnemy : Enemy
     protected override void Start()
     {
         base.Start();
+
         currentPosition = generationCoordinates;
-        targetPosition = transform.position;
+
+        GridSystem.Node startNode = gridSystem.GetNode(generationCoordinates.x, generationCoordinates.z);
+
+        if (startNode != null)
+        {
+            transform.position = new Vector3(startNode.position.x, 0, startNode.position.z);
+            targetPosition = transform.position;
+        }
+        else
+        {
+            Debug.LogError("El nodo inicial no es válido. Verifica las coordenadas de generación.");
+        }
     }
 
     void Update()
@@ -26,15 +38,26 @@ public class SimpleEnemy : Enemy
     {
         Vector3Int nextPosition = currentPosition + currentDirection;
 
-        int x = Mathf.RoundToInt((nextPosition.x - gridSystem.startCoordinate.x) / gridSystem.nodeOffset);
-        int z = Mathf.RoundToInt((nextPosition.z - gridSystem.startCoordinate.z) / gridSystem.nodeOffset);
+        int x = nextPosition.x;
+        int z = nextPosition.z;
 
+        GridSystem.Node currentNode = gridSystem.GetNode(currentPosition.x, currentPosition.z);
         GridSystem.Node nextNode = gridSystem.GetNode(x, z);
 
         if (nextNode != null && nextNode.isWalkable && !nextNode.isIceBlock)
         {
+            if (currentNode != null)
+                currentNode.enemy = null;
+
             currentPosition = nextPosition;
             targetPosition = new Vector3(nextNode.position.x, 0, nextNode.position.z);
+            Vector3 direction = (targetPosition - transform.position).normalized;
+            if (direction != Vector3.zero)
+            {
+                transform.rotation = Quaternion.LookRotation(direction);
+            }
+
+            nextNode.enemy = this;
         }
         else
         {
@@ -42,12 +65,18 @@ public class SimpleEnemy : Enemy
         }
     }
 
+
+
     private void ChangeDirection()
     {
         Vector3Int[] possibleDirections = { Vector3Int.forward, Vector3Int.back, Vector3Int.left, Vector3Int.right };
+        Vector3Int newDirection;
+
         do
         {
-            currentDirection = possibleDirections[Random.Range(0, possibleDirections.Length)];
-        } while (currentDirection == -currentDirection);
+            newDirection = possibleDirections[Random.Range(0, possibleDirections.Length)];
+        } while (newDirection == -currentDirection);
+
+        currentDirection = newDirection;
     }
 }

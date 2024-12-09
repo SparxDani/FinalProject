@@ -15,12 +15,12 @@ MonoBehaviour:
   m_Active: 1
   m_Settings:
     AOMethod: 1
-    Downsample: 0
+    Downsample: 1
     AfterOpaque: 0
     Source: 1
     NormalSamples: 1
-    Intensity: 1
-    DirectLightingStrength: 0.25
+    Intensity: 3
+    DirectLightingStrength: 1
     Radius: 1
     Samples: 0
     BlurQuality: 0
@@ -126,10 +126,10 @@ MonoBehaviour:
     _ContoursIntensity: 1
     _ContoursThickness: 3
     _ContoursElevationStrength: 3
-    _ContoursElevationSmoothness: 0.05
+    _ContoursElevationSmoothness: 0.219
     _ContoursDepressionStrength: 3
     _ContoursDepressionSmoothness: 0.9
     _CavityIntensity: 1
-    _CavityRadius: 0.631
-    _CavityStrength: 4.31
-    _CavitySamples: 12
+    _CavityRadius: 0.544
+    _CavityStrength: 2.63
+    _CavitySamples: 7

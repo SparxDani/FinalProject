@@ -6,11 +6,17 @@ using System.Collections;
 public class GridSystem : MonoBehaviour
 {
     [SerializeField] public float nodeOffset = 1f;
-    [SerializeField] public float actionDelay = 0.5f; 
+    [SerializeField] public float actionDelay = 0.5f;
     [SerializeField] private TextAsset mapFile;
     [SerializeField] public Vector3Int startCoordinate = Vector3Int.zero;
     [SerializeField] public GameObject iceBlockPrefab;
-    [SerializeField] public GameObject[] obstaclePrefabs; 
+    [SerializeField] public GameObject[] obstaclePrefabs;
+
+    [Header("Audio Settings")]
+    [SerializeField] private AudioClip createIceSound;
+    [SerializeField] private AudioClip destroyIceSound;
+
+    [SerializeField] private AudioSource audioSource;
 
     public Node[,] nodes;
     public int width;
@@ -21,6 +27,7 @@ public class GridSystem : MonoBehaviour
         LoadMapFromFile();
         CreateGrid();
         ConnectNodes();
+        
     }
 
     void LoadMapFromFile()
@@ -91,66 +98,14 @@ public class GridSystem : MonoBehaviour
     {
         StopAllCoroutines();
         StartCoroutine(ToggleIceBlocksCoroutine(playerPosition, direction));
-        Vector3Int currentPosition = playerPosition + direction;
-
-        List<Node> nodesToProcess = new List<Node>();
-
-        bool shouldDestroy = true;
-
-        while (true)
-        {
-            int x = Mathf.RoundToInt((currentPosition.x - startCoordinate.x) / nodeOffset);
-            int z = Mathf.RoundToInt((currentPosition.z - startCoordinate.z) / nodeOffset);
-
-            if (x < 0 || x >= width || z < 0 || z >= length)
-                break;
-
-            Node node = nodes[x, z];
-
-            if (node == null || (!node.isWalkable && !node.isIceBlock))
-                break;
-
-            if (!node.isIceBlock)
-            {
-                shouldDestroy = false;
-                break;
-            }
-
-            nodesToProcess.Add(node);
-
-            currentPosition += direction;
-        }
-
-        for (int i = 0; i < nodesToProcess.Count; i++)
-        {
-            Node node = nodesToProcess[i];
-
-            if (shouldDestroy)
-            {
-                if (node.isIceBlock)
-                {
-                    Destroy(node.iceBlockInstance);
-                    node.isIceBlock = false;
-                    node.isWalkable = true;
-                }
-            }
-            else
-            {
-                if (node.isWalkable)
-                {
-                    node.iceBlockInstance = Instantiate(iceBlockPrefab, new Vector3(node.position.x, 0, node.position.z), Quaternion.identity);
-                    node.isIceBlock = true;
-                    node.isWalkable = false;
-                }
-            }
-        }
     }
-
     private IEnumerator ToggleIceBlocksCoroutine(Vector3Int playerPosition, Vector3Int direction)
     {
         Vector3Int currentPosition = playerPosition + direction;
         List<Node> affectedNodes = new List<Node>();
 
+        bool playedDestroySound = false; 
+
         while (true)
         {
             int x = Mathf.RoundToInt((currentPosition.x - startCoordinate.x) / nodeOffset);
@@ -160,6 +115,12 @@ public class GridSystem : MonoBehaviour
                 break;
 
             Node node = nodes[x, z];
+
+            if (node.enemy != null)
+            {
+                Debug.Log("Creación de bloques de hielo detenida por la presencia de un enemigo.");
+                break;
+            }
 
             if (node == null || (!node.isIceBlock))
                 break;
@@ -168,23 +129,29 @@ public class GridSystem : MonoBehaviour
             currentPosition += direction;
         }
 
-        if (affectedNodes.Count > 0)
+        for (int i = 0; i < affectedNodes.Count; i++)
         {
-            for (int i = 0; i < affectedNodes.Count; i++)
+            Node node = affectedNodes[i];
+            if (node.isIceBlock)
             {
-                Node node = affectedNodes[i];
-                if (node.isIceBlock)
+                if (!playedDestroySound)
                 {
-                    Destroy(node.iceBlockInstance);
-                    node.isIceBlock = false;
-                    node.isWalkable = true;
-                    yield return new WaitForSeconds(0.2f);
+                    PlaySound(destroyIceSound);
+                    playedDestroySound = true;
                 }
+
+                Destroy(node.iceBlockInstance);
+                node.isIceBlock = false;
+                node.isWalkable = true;
+                yield return new WaitForSeconds(0.2f);
             }
-            yield break;
         }
 
+        if (affectedNodes.Count > 0)
+            yield break;
+
         currentPosition = playerPosition + direction;
+        bool playedCreateSound = false;
 
         while (true)
         {
@@ -196,11 +163,23 @@ public class GridSystem : MonoBehaviour
 
             Node node = nodes[x, z];
 
+            if (node.enemy != null)
+            {
+                Debug.Log("Creación de bloques de hielo detenida por la presencia de un enemigo.");
+                break;
+            }
+
             if (node == null || (!node.isWalkable && !node.isIceBlock))
                 break;
 
             if (node.isWalkable)
             {
+                if (!playedCreateSound)
+                {
+                    PlaySound(createIceSound);
+                    playedCreateSound = true;
+                }
+
                 node.iceBlockInstance = Instantiate(iceBlockPrefab, new Vector3(node.position.x, 0, node.position.z), Quaternion.identity);
                 node.isIceBlock = true;
                 node.isWalkable = false;
@@ -208,6 +187,14 @@ public class GridSystem : MonoBehaviour
             }
 
             currentPosition += direction;
+        }
+    }
+
+    private void PlaySound(AudioClip clip)
+    {
+        if (clip != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(clip);
         }
     }
 
@@ -271,5 +258,6 @@ public class GridSystem : MonoBehaviour
             }
         }
     }
+
 
 }

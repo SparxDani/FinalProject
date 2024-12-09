@@ -7,6 +7,7 @@ public class MovingFruit : Fruit
     private GridSystem.Node targetNode;
     private bool isMoving = false;
     public float speed = 3f;
+    private Coroutine movementCoroutine;
 
     protected override void Start()
     {
@@ -19,7 +20,7 @@ public class MovingFruit : Fruit
             return;
         }
 
-        StartCoroutine(MoveRandomly());
+        StartMoving();
     }
 
     private IEnumerator MoveRandomly()
@@ -69,6 +70,7 @@ public class MovingFruit : Fruit
     {
         base.Collect();
         Debug.Log("MovingFruit collected!");
+        StopMoving();
     }
 
     private GridSystem.Node GetNodeAtPosition(Vector3 position)
@@ -82,5 +84,30 @@ public class MovingFruit : Fruit
         }
 
         return null;
+    }
+
+    public void RestartMovement()
+    {
+        StopMoving();
+        targetNode = GetNodeAtPosition(transform.position);
+        isMoving = false;
+        StartMoving();
+    }
+
+    private void StartMoving()
+    {
+        if (movementCoroutine == null)
+        {
+            movementCoroutine = StartCoroutine(MoveRandomly());
+        }
+    }
+
+    private void StopMoving()
+    {
+        if (movementCoroutine != null)
+        {
+            StopCoroutine(movementCoroutine);
+            movementCoroutine = null;
+        }
     }
 }

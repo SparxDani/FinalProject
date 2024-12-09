@@ -10,9 +10,14 @@ public class StaticFruit : Fruit
     [SerializeField] private float scaleDuration = 1f;
     [SerializeField] private float rotationSpeed = 360f;
 
+    private Vector3 initialScale; 
+    private Quaternion initialRotation; 
+
     protected override void Start()
     {
         base.Start();
+        initialScale = transform.localScale;
+        initialRotation = transform.rotation;
         ApplyTransformEffects();
     }
 
@@ -38,5 +43,15 @@ public class StaticFruit : Fruit
             transform.Rotate(Vector3.up * rotationSpeed * Time.deltaTime, Space.Self);
             yield return null;
         }
+    }
+
+    public void RestartEffects()
+    {
+        transform.DOKill();
+        StopAllCoroutines();
+
+        transform.localScale = initialScale;
+        transform.rotation = initialRotation;
+        ApplyTransformEffects();
     }
 }

@@ -3,39 +3,57 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
+    [Header("Panels")]
     public GameObject WinPanel;
     public GameObject LosePanel;
+    public GameObject PausePanel;
+
+    [Header("AudioSources")]
     public AudioSource audioSource;
     public AudioSource backgroundMusicSource;
 
+    [Header("MusicAssets")]
     public AudioClip WinSound;
     public AudioClip VictoryMusic;
     public AudioClip LoseSound;
     public AudioClip DefeatSound;
 
+    [Header("RectTransform Object")]
     public RectTransform WinPanelRectTransform;
     public RectTransform LosePanelRectTransform;
+    public RectTransform PausePanelRectTransform;
+
+    [Header("Visual Effects")]
+    public GameObject victoryEffect; 
+
+    private bool isPaused = false;
+    private bool isAnimating = false;
 
     private void OnEnable()
     {
         FruitManager.OnVictoryAchieved += HandleVictory;
         CharacterMovement.OnPlayerDefeated += HandleDefeat;
+        CharacterMovement.OnPlayerVictory += HandleVictory;
     }
 
     private void OnDisable()
     {
         FruitManager.OnVictoryAchieved -= HandleVictory;
         CharacterMovement.OnPlayerDefeated -= HandleDefeat;
+        CharacterMovement.OnPlayerVictory -= HandleVictory; 
     }
 
     private void HandleVictory()
     {
+        Debug.Log("HandleVictory triggered in GameController.");
         PlaySound(WinSound, false);
         StartCoroutine(HandleVictorySequence());
     }
+
 
     private void HandleDefeat()
     {
@@ -71,6 +89,11 @@ public class GameController : MonoBehaviour
 
         PlaySound(VictoryMusic, false);
 
+        if (victoryEffect != null)
+        {
+            Instantiate(victoryEffect, Vector3.zero, Quaternion.identity);
+        }
+
         if (WinPanel != null)
         {
             WinPanel.gameObject.SetActive(true);
@@ -90,6 +113,7 @@ public class GameController : MonoBehaviour
 
     public void LoadScene(string nameScene)
     {
+        Time.timeScale = 1f;
         if (SceneTransitionManager.Instance != null)
         {
             SceneTransitionManager.Instance.TransitionToScene(nameScene);
@@ -102,7 +126,54 @@ public class GameController : MonoBehaviour
 
     public void RetryLevel()
     {
+        Time.timeScale = 1f;
         string currentSceneName = SceneManager.GetActiveScene().name;
         SceneTransitionManager.Instance.TransitionToScene(currentSceneName);
+    }
+
+    public void PauseGame()
+    {
+        if (isPaused || isAnimating) return;
+        isAnimating = true;
+
+        if (backgroundMusicSource != null && backgroundMusicSource.isPlaying)
+        {
+            backgroundMusicSource.Pause();
+        }
+
+        PausePanel.SetActive(true);
+        PausePanelRectTransform.anchoredPosition = new Vector2(0, 1000);
+        PausePanelRectTransform
+            .DOAnchorPos(Vector2.zero, 1f)
+            .SetEase(Ease.OutBounce)
+            .OnComplete(() =>
+            {
+                Time.timeScale = 0f;
+                isPaused = true;
+                isAnimating = false;
+            });
+    }
+
+    public void ResumeGame()
+    {
+        if (!isPaused || isAnimating) return;
+        isAnimating = true;
+
+        Time.timeScale = 1f;
+
+        if (backgroundMusicSource != null)
+        {
+            backgroundMusicSource.UnPause();
+        }
+
+        PausePanelRectTransform
+            .DOAnchorPos(new Vector2(0, 1000), 1f)
+            .SetEase(Ease.InBack)
+            .OnComplete(() =>
+            {
+                PausePanel.SetActive(false);
+                isPaused = false;
+                isAnimating = false;
+            });
     }
 }

@@ -1,11 +1,9 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Fruit : MonoBehaviour
 {
-    public static event Action<int> OnFruitCollected;
+    public static event Action<Fruit> OnFruitCollected;
     public Vector3Int generationCoordinates;
     public int points = 10;
     public FruitManager FruitManager;
@@ -35,11 +33,13 @@ public class Fruit : MonoBehaviour
         {
             PlaySound(collectedFruitSound);
             isCollected = true;
-            OnFruitCollected?.Invoke(points);
+            OnFruitCollected?.Invoke(this);
             FruitManager.OnFruitCollected(this);
+
             Destroy(gameObject);
         }
     }
+
     private void PlaySound(AudioClip clip)
     {
         if (audioSource != null && clip != null)
