@@ -14,8 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Chocolate
   characterImage: {fileID: 21300000, guid: 8bc1a38945f391f40b2e7ad1022d144d, type: 3}
-  characterPrefab: {fileID: 0}
-  characterColors:
-  - {r: 0.4811321, g: 0.24619466, b: 0.06127626, a: 1}
-  - {r: 0.6698113, g: 0.42021182, b: 0.4731076, a: 1}
-  - {r: 0, g: 1, b: 0.6943891, a: 1}
+  characterPrefab: {fileID: 4991253056137862327, guid: b1541c68c58eba247a21e21e5b84704b,
+    type: 3}

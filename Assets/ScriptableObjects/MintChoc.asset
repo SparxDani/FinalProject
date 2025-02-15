@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: MintChoc
   characterImage: {fileID: 21300000, guid: e7f087033e0f500448f41aca35ae95ad, type: 3}
-  characterPrefab: {fileID: 3701426298077221381, guid: 36e5b55286c0d4448ac9d191bc8951eb,
+  characterPrefab: {fileID: 5552281022293984427, guid: 36e5b55286c0d4448ac9d191bc8951eb,
     type: 3}

@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: BubbleGum
   characterImage: {fileID: 21300000, guid: 79e16d5b4c1d711478a5af83bd0ca2fb, type: 3}
-  characterPrefab: {fileID: 289067761558134844, guid: 38d4181171b6be940a444e8cce85e957,
+  characterPrefab: {fileID: 377415489137885246, guid: 38d4181171b6be940a444e8cce85e957,
     type: 3}

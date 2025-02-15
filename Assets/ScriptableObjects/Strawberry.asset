@@ -14,8 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Strawberry
   characterImage: {fileID: 21300000, guid: 04c39cc726ae0b748b9f4ce07e08bec2, type: 3}
-  characterPrefab: {fileID: 0}
-  characterColors:
-  - {r: 1, g: 0.504717, b: 0.7203283, a: 1}
-  - {r: 0.9960785, g: 0.57254905, b: 0.19215688, a: 1}
-  - {r: 0, g: 0.8384061, b: 1, a: 1}
+  characterPrefab: {fileID: 7288331324707724184, guid: 6d2a9433bd4071649a780cedb064ba79,
+    type: 3}

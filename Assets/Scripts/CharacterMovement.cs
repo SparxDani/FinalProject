@@ -21,8 +21,23 @@ public class CharacterMovement : MonoBehaviour
     public static event Action OnPlayerDefeated;
     public static event Action OnPlayerVictory;
 
+    public static GameObject selectedCharacterPrefab; // Personaje seleccionado
+    private GameObject currentCharacterInstance; // Instancia del personaje
+
     void Start()
     {
+
+        if (selectedCharacterPrefab != null)
+        {
+            // Instanciar el personaje como hijo del jugador
+            currentCharacterInstance = Instantiate(selectedCharacterPrefab, transform);
+            currentCharacterInstance.transform.localPosition = Vector3.zero;
+            currentCharacterInstance.transform.localRotation = Quaternion.identity;
+        }
+        else
+        {
+            Debug.LogWarning("No character prefab selected.");
+        }
         playerCollider = GetComponent<CapsuleCollider>();
         if (gridSystem == null)
         {
@@ -188,5 +203,14 @@ public class CharacterMovement : MonoBehaviour
             Debug.LogError("Player Collider is null in CharacterMovement.");
         }
     }
+    public Vector3Int GetGridPosition()
+    {
+        return new Vector3Int(
+            Mathf.RoundToInt((transform.position.x - gridSystem.startCoordinate.x) / gridSystem.nodeOffset),
+            0,
+            Mathf.RoundToInt((transform.position.z - gridSystem.startCoordinate.z) / gridSystem.nodeOffset)
+        );
+    }
+
 
 }

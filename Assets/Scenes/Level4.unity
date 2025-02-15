@@ -26122,6 +26122,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: f0929eaf-f01e-41b4-8199-a1cafabfa024
     m_ActionName: Gameplay/Destroy[/Keyboard/z]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: cb142982-2af3-4c90-a210-9da767ad5d58
+    m_ActionName: Ui Navigation/Click to lick[/XInputControllerWindows/start,/Keyboard/enter]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
@@ -46884,7 +46888,7 @@ PrefabInstance:
     - target: {fileID: 9032016443572840517, guid: 5435b8ac108a52a42a796297770f87ea,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -48310,7 +48314,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: CharacterSelector
+          m_StringArgument: Level5
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &2001397871

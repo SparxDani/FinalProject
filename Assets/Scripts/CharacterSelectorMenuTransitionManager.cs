@@ -155,11 +155,16 @@ public class CharacterSelectorMenuTransitionManager : MonoBehaviour
     {
         PlaySound(buttonClickSound);
 
+        // Guardar el prefab del personaje seleccionado en CharacterMovement
+        CharacterMovement.selectedCharacterPrefab = characters[selectedIndex].characterPrefab;
+
+        // Cambiar de panel
         RectTransform[] panelsToHide = { characterSelectionPanel };
         ShowPanel(levelSelectorPanel, panelsToHide);
 
         OnCharacterSelected?.Invoke();
     }
+
 
     public void OnOptionsButtonClicked()
     {
