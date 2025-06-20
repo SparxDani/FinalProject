@@ -23,7 +23,7 @@ RenderSettings:
   m_AmbientSkyColor: {r: 0.46226418, g: 1.9846303, b: 2, a: 1}
   m_AmbientEquatorColor: {r: 1, g: 1, b: 1, a: 1}
   m_AmbientGroundColor: {r: 1, g: 1, b: 1, a: 1}
-  m_AmbientIntensity: 0.75
+  m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.41960785, g: 0.47843137, b: 0.627451, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: cc421da483ed06c49933077a621bff25, type: 2}
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 410087040}
-  m_IndirectSpecularColor: {r: 0.10466835, g: 0.0057460414, b: 1.0276071, a: 1}
+  m_IndirectSpecularColor: {r: 0.104330406, g: 0.0057037002, b: 1.0255458, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -97,7 +97,8 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 3d1e3646c5829b94f99d9be556db9370,
+    type: 2}
   m_LightingSettings: {fileID: 4890085278179872738, guid: 83ee6c2a7b9848542abb6405ec88edd7,
     type: 2}
 --- !u!196 &4
@@ -11107,7 +11108,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.68967336, b: 0.57254905, a: 1}
+  m_Color: {r: 1, g: 0.6279826, b: 0.57254905, a: 1}
   m_Intensity: 5
   m_Range: 10
   m_SpotAngle: 30
@@ -11166,13 +11167,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410087039}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2164396, y: 0, z: 0, w: 0.97629607}
+  m_LocalRotation: {x: 0.30459446, y: 0.36128724, z: -0.12616715, w: 0.87222457}
   m_LocalPosition: {x: 9.55, y: 3, z: -24.88}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 25, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 38.5, y: 45, z: 0}
 --- !u!114 &410087042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20637,7 +20638,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &602903959
 Transform:
   m_ObjectHideFlags: 0
@@ -63543,7 +63544,7 @@ PrefabInstance:
     - target: {fileID: 7288331324707724184, guid: 6d2a9433bd4071649a780cedb064ba79,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -63842,7 +63843,7 @@ PrefabInstance:
     - target: {fileID: 8994096718368846992, guid: 353c98246ded19148a30e7e888959634,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -64391,7 +64392,7 @@ PrefabInstance:
     - target: {fileID: 2021441781067145286, guid: 2b2ed2e81e4059042ab5c2a6ef4011b7,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5998271222008883554, guid: 2b2ed2e81e4059042ab5c2a6ef4011b7,
         type: 3}
@@ -64514,7 +64515,7 @@ PrefabInstance:
     - target: {fileID: 5552281022293984427, guid: 36e5b55286c0d4448ac9d191bc8951eb,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -65167,7 +65168,7 @@ PrefabInstance:
     - target: {fileID: 435801068338928589, guid: e69ea18de76eef3468cc494204484c10,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7412657991501468272, guid: e69ea18de76eef3468cc494204484c10,
         type: 3}
@@ -65704,6 +65705,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: helado_lemon
       objectReference: {fileID: 0}
+    - target: {fileID: 6050453478176251852, guid: dcc529bb1c7305047baf560952ccdbc2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -65904,7 +65910,7 @@ PrefabInstance:
     - target: {fileID: 4991253056137862327, guid: b1541c68c58eba247a21e21e5b84704b,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -66038,7 +66044,7 @@ PrefabInstance:
     - target: {fileID: 377415489137885246, guid: 38d4181171b6be940a444e8cce85e957,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6015744441940990409, guid: 38d4181171b6be940a444e8cce85e957,
         type: 3}

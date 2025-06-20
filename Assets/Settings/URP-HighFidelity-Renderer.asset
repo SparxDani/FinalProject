@@ -17,14 +17,14 @@ MonoBehaviour:
     AOMethod: 1
     Downsample: 1
     AfterOpaque: 0
-    Source: 1
+    Source: 0
     NormalSamples: 1
-    Intensity: 3
-    DirectLightingStrength: 1
+    Intensity: 5
+    DirectLightingStrength: 0.39
     Radius: 1
     Samples: 0
     BlurQuality: 0
-    Falloff: 100
+    Falloff: 3
     SampleCount: -1
   m_BlueNoise256Textures:
   - {fileID: 2800000, guid: 36f118343fc974119bee3d09e2111500, type: 3}
@@ -112,24 +112,24 @@ MonoBehaviour:
   m_Active: 1
   m_Settings:
     _DetailerType: 0
-    _MaskUse: 0
+    _MaskUse: 1
     _MaskLayer:
       serializedVersion: 2
       m_Bits: 0
     _FastMode: 0
-    _ColorHue: {r: 1, g: 1, b: 1, a: 1}
+    _ColorHue: {r: 0, g: 0, b: 0, a: 1}
     _UseFade: 0
     _FadeAffectsOnlyContours: 0
     _FadeStart: 40
     _FadeEnd: 60
-    _BlackOffset: 0.5
-    _ContoursIntensity: 1
-    _ContoursThickness: 3
+    _BlackOffset: 0
+    _ContoursIntensity: 0.55
+    _ContoursThickness: 0.78
     _ContoursElevationStrength: 3
-    _ContoursElevationSmoothness: 0.219
+    _ContoursElevationSmoothness: 0.9
     _ContoursDepressionStrength: 3
-    _ContoursDepressionSmoothness: 0.9
+    _ContoursDepressionSmoothness: 0
     _CavityIntensity: 1
-    _CavityRadius: 0.544
-    _CavityStrength: 2.63
-    _CavitySamples: 7
+    _CavityRadius: 0.95
+    _CavityStrength: 3.75
+    _CavitySamples: 8
